@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
   def index
     @message = Message.new
     $user = current_user
-    @timeZones = [["Pacific Time", -8], ["Eastern Time", -5], ["Greenwich Mean Time", 0], ["Mountain", -7],["Central Time", -6],["Atlantic Time", -4], ["Newfoundland Time", -3.5], ["European Central Time", 1], ["Eastern European Time", 2], ["Argentina Standard Time", -3], ["Brazil Eastern Time", -3], ["Central African Time", -1], ["Alaska Standard Time", -9], ["Hawaii Standard Time", -10], ["Midway Islands Time", -11]] 
+    @timeZones = [["Pacific Time", -8], ["Eastern Time", -5], ["Greenwich Mean Time", 0], ["Mountain", -7],["Central Time", -6],["Atlantic Time", -4], ["Newfoundland Time", -3.5], ["European Central Time", 1], ["Eastern European Time", 2], ["Argentina Standard Time", -3], ["Brazil Eastern Time", -3], ["Central African Time", -1], ["Alaska Standard Time", -9], ["Hawaii Standard Time", -10], ["Midway Islands Time", -11]]
     if user_signed_in? && current_user.class_number.nil? && !params["user"].nil?
       @setUserClassNumber = User.find_by(id: current_user.id)
       @setUserClassNumber.update(time_zone: params["user"]["time_zone"].to_i, class_number: params["user"]["class_number"].to_i)
@@ -51,7 +51,7 @@ class GroupsController < ApplicationController
       return "yes"
     elsif group.homework_assigned == false
       return "no"
-    else 
+    else
       return ""
     end
   end
@@ -126,8 +126,10 @@ class GroupsController < ApplicationController
         @group.save
         counter += 1
       end
-      if @group.save
-        redirect_to root_path, notice: "classes were successfully created"
+      if @group.nil?
+        redirect_to root_path, notice: "Sorry! You need to fill out the form"
+      elsif @group.save
+        redirect_to root_path, notice: "You made some classes, YAY!"
       else
         render :new
       end
