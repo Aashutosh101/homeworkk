@@ -25,8 +25,4 @@
 *.pass.key
 *.key
 
-/config/*.yml
-
-/config/secrets.yml
-
 .env
