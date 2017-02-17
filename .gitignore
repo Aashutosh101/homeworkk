@@ -24,7 +24,11 @@
 *.csr
 *.pass.key
 *.key
-
+/Gemfile.lock
 /config/secrets.yml
+/config/application.rb
+/config/initializers/devise.rb
+
+/app/helpers/*.rb
 
 .env

@@ -32,12 +32,13 @@ module Homeworkk
       authentication: :plain,
       enable_starttls_auto: true
     }
+    
 
     config.action_mailer.default_url_options = {
       host: 'christopherbot.co'
     }
 
-    
+
     config.time_zone = "America/Los_Angeles"
     config.active_record.default_timezone = :local
   end

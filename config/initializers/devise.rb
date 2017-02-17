@@ -22,7 +22,7 @@ Devise.setup do |config|
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
   require 'devise/orm/active_record'
-  
+
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
   # just :email. You can configure it to use [:username, :subdomain], so for
@@ -256,6 +256,7 @@ Devise.setup do |config|
   #
   #     mount MyEngine, at: '/my_engine'
   #
+  
   # The router that invoked `devise_for`, in the example above, would be:
   # config.router_name = :my_engine
   #
@@ -268,7 +269,7 @@ config.secret_key = '94c7a6a1b6f15ca8fe27aa58b623d65d0f363ae754835bc0e9add0a4d83
     config.omniauth :facebook, "1894774840756659", "f228177f7baee22f1b9e158a19749dfd", scope: 'email,public_profile', info_fields: 'email, first_name, last_name, timezone'
   elsif Rails.env.staging?
     config.omniauth :facebook, "598917960297359", "a4fc623d9fbbde5f6a2f5c6541bb7545", scope: 'email,public_profile', info_fields: 'email, first_name, last_name, timezone'
-  else 
+  else
     config.omniauth :facebook, "1798319283735549", "7e1cb8536d22cef46f21f8d2b705cd43", scope: 'email,public_profile', info_fields: 'email, first_name, last_name, timezone'
   end
 end
