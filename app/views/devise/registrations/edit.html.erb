@@ -2,8 +2,7 @@
     <br>
     <h1 class="center">My Settings</h1>
 <div class="body-left">
-    <% @timeZones = [["Pacific Time (GMT - 8)", -8],
-    ["Eastern Time (GMT - 5)", -5], ["Greenwich Mean Time", 0], ["Mountain (GMT - 7)", -7],["Central Time (GMT - 6)", -6],["Atlantic Time (GTM - 4)", -4], ["Newfoundland Time (GMT - 3.5)", -3.5], ["European Central Time (GMT + 1)", 1], ["India Standard Time (GMT + 5.5)", 5.5],["Australian Central Time (GMT + 9.5)", 9.5],["Australian Eastern Time (GMT + 10)", 10], ["Pakistan Lahore Time(GMT + 5)", 5], ["China Taiwan Time (GMT + 8)", 8], ["Eastern European Time (GMT + 2)", 2], ["Japan Standard Time (GMT + 9)", 9], ["Argentina Standard Time (GMT - 3)", -3], ["Brazil Eastern Time (GMT - 3)", -3], ["Central African Time (GMT - 1)", -1], ["Alaska Standard Time (GMT - 9)", -9], ["Hawaii Standard Time (GMT - 10)", -10], ["Midway Islands Time (GMT - 11)", -11]] %>
+    <% @timeZones = [["Pacific Time (GMT - 8)", -8], ["Eastern Time (GMT - 5)", -5], ["Greenwich Mean Time", 0], ["Mountain (GMT - 7)", -7],["Central Time (GMT - 6)", -6],["Atlantic Time (GMT - 4)", -4], ["Newfoundland Time (GMT - 3.5)", -3.5], ["European Central Time (GMT + 1)", 1], ["India Standard Time (GMT + 5.5)", 5.5],["Australian Central Time (GMT + 9.5)", 9.5],["Australian Eastern Time (GMT + 10)", 10], ["Thailand Time Zone (GMT + 7)", 7], ["Pakistan Lahore Time(GMT + 5)", 5], ["China Taiwan Time (GMT + 8)", 8], ["Eastern European Time (GMT + 2)", 2], ["Japan Standard Time (GMT + 9)", 9], ["Argentina Standard Time (GMT - 3)", -3], ["Brazil Eastern Time (GMT - 3)", -3], ["Central African Time (GMT - 1)", -1], ["Alaska Standard Time (GMT - 9)", -9], ["Hawaii Standard Time (GMT - 10)", -10], ["Midway Islands Time (GMT - 11)", -11]] %>
 
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }, validate: true) do |f| %>
       <%= devise_error_messages! %>
