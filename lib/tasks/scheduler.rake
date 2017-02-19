@@ -15,9 +15,9 @@ task :message_task => :environment do
 		else
 			#puts "end_time 1: " + group.end_time.inspect
 			group.end_time = group.end_time - group.time_zone.hours
-			#puts "end_time 2: " + group.end_time
+			#puts "end_time 2: " + group.end_time 
 		end
-		
+
 
 		if group.end_time.strftime("%H:%M") >= @t && group.end_time.strftime("%H:%M") < @timeten
 			#puts "group: " + group.group_name.to_s + " " + group.conversation_id.to_s
@@ -37,7 +37,7 @@ task :message_task => :environment do
 			groupArrayNew.save
 		end
 	end
-	
+
 end
 
 task :check_pause => :environment do
@@ -79,7 +79,7 @@ task :reset_classes => :environment do
 			@midnight = 0.minutes.from_now.utc + group.time_zone.hours
 		end
 		# if its midnight of that user
-		if @midnight.strftime("%H:%M") >= "00:00" && @midnight.strftime("%H:%M") <= "00:10"  
+		if @midnight.strftime("%H:%M") >= "00:00" && @midnight.strftime("%H:%M") <= "00:10"
 			# update that it has no homework
 			group.update(homework_assigned: nil, homework_assignment: nil)
 		end
@@ -99,7 +99,7 @@ task :reset_user_homework => :environment do
 			@midnight = 0.minutes.from_now.utc + user.time_zone.hours
 		end
 		# if it is midnight then update they dont have homework
-		if @midnight.strftime("%H:%M") >= "00:00" && @midnight.strftime("%H:%M") <= "00:10"  
+		if @midnight.strftime("%H:%M") >= "00:00" && @midnight.strftime("%H:%M") <= "00:10"
 			user.update(sentHomwork: false)
 		end
 	end
@@ -112,7 +112,7 @@ task :send_homework => :environment do
 	# for each the users
 	@users.each do |user|
 		# if the user hasn't ahd their homework sent or it is nil
-		if user.sentHomwork == false || user.sentHomwork == nil 
+		if user.sentHomwork == false || user.sentHomwork == nil
 			#checking to make sure the user has groups
 		if !user.groups.where("group_day = ?", 0.hours.ago.strftime("%A").downcase).nil? && !user.groups.where("group_day = ?", 0.hours.ago.strftime("%A").downcase).order("end_time asc").limit(user.class_number.to_i).last.nil?
 			if user.groups.where("group_day = ?", 0.hours.ago.strftime("%A").downcase).order("end_time ASC").limit(user.class_number.to_i).last.homework_assigned != nil
@@ -147,7 +147,7 @@ task :send_homework => :environment do
 					Messagehuman.sendMessage(user.groups.last.conversation_id, 'yay. you have no homework.')
 					# update that they have had their hoemwork sent to them
 					user.update(sentHomwork: true)
-				end		
+				end
 			end
 		end
 	end
@@ -176,5 +176,3 @@ task :send_share_button => :environment do
 	end
 	end
 end
-
-
