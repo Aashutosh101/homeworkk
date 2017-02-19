@@ -23,8 +23,6 @@ class MessengerController < ApplicationController
 		$checkKeyWords = nil
 		# random numbe from 0 to seven, to get a random response from the array
 		randomNum = rand(0..8)
-		if $webhook["entry"][0]["messaging"][0]["message"]["text"].nil? && $webhook["entry"][0]["messaging"][0]["postback"].nil?
-		else
 
  		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"]["payload"].inspect if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
 		# what text the user sent
@@ -303,7 +301,7 @@ class MessengerController < ApplicationController
 						@sentMessage = true
 					else
 					end
-					end
+					
 				end
 			end
 			# if there has been no message sent, then send a default response
