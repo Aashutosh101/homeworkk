@@ -24,13 +24,7 @@ class MessengerController < ApplicationController
 		# random numbe from 0 to seven, to get a random response from the array
 		randomNum = rand(0..8)
 		if $webhook["entry"][0]["messaging"][0]["message"]["text"].nil? && $webhook["entry"][0]["messaging"][0]["postback"].nil?
-			$STICKER = "youp"
 			$webhook = nil
-			#send the message bubbles
-			Messagehuman.sendMessageBubbles(@recipient)
-			sleep(1.5)
-			# sending the default response
-			Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
 		else
 
  		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"]["payload"].inspect if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
