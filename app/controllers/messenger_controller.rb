@@ -11,7 +11,8 @@ class MessengerController < ApplicationController
  		$webhook = JSON.parse(request.raw_post)
  		# person who sent the text; id
  		@recipient = $webhook["entry"][0]["messaging"][0]["sender"]["id"]
-		@positiveResponses = ["that's grrrreat", "that's awesome!", "yay! no homework!", "finally, a break from some homework", "awesome, just what i wanted to hear", "yay, some good news today", "that's almost better than harry potter", "time to celebrate, come on!", "ho ho ho! merry christmas!"].shuffle
+ 		# a list of positve responses to respond with if user doesn't have homework
+ 		@positiveResponses = ["that's grrrreat", "that's awesome!", "yay! no homework!", "finally, a break from some homework", "awesome, just what i wanted to hear", "yay, some good news today", "that's almost better than harry potter", "time to celebrate, come on!", "ho ho ho! merry christmas!"].shuffle
 		# a list of negative responses if user has homework
 		@negativeResponses = ["booooo", "what a shame", "ugh, that stinks", "your teacher needs to chill out on the homework", "that's so sad to hear", "that sucks, at least you look good today", "that sucks more than a vacuum", "that's worse than when dumbledore died", "that's too bad, but try not to become a debby downer"].shuffle
 		# if user sends a text, but has nothing to do with homework and they're signed up
@@ -21,21 +22,18 @@ class MessengerController < ApplicationController
 		@sentKeyWords = false
 		@sentConfirmation = false
 		$checkKeyWords = nil
-		# random numbe from 0 to seven, to get a random response from the array
-		randomNum = rand(0..8)
+		# list of all classes that need to be delt with
+ 		currentClasses = Grouparray.all
+ 		# random numbe from 0 to seven, to get a random response from the array
+ 		randomNum = rand(0..8)
 		if $webhook["entry"][0]["messaging"][0]["message"]["text"].nil? && $webhook["entry"][0]["messaging"][0]["postback"].nil?
 			count = 1
 		else
-
- 		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"]["payload"].inspect if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
-		# what text the user sent
-		$ifStart = @ifStart
-			if @ifStart.nil?
-				@userText = $webhook["entry"][0]["messaging"][0]["message"]["text"].downcase unless $webhook["entry"][0]["messaging"][0]["message"].nil?
-			end
- 		# a list of positve responses to respond with if user doesn't have homework
-		# list of all classes that need to be delt with
- 		currentClasses = Grouparray.all
+		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"]["payload"].inspect if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
+ 		# what text the user sent
+ 		if @ifStart.nil?
+ 			@userText = $webhook["entry"][0]["messaging"][0]["message"]["text"].downcase unless $webhook["entry"][0]["messaging"][0]["message"].nil?
+ 		end
 
  		if Rails.env.staging?
  			$page_access_token = "EAAIgtnRF648BABaZCpNurJN2GBzjZC6jQZAZCCdQE90mluLc5jooAfHrFgSxsYT2eTeu9sXVjWWiFc1gZBXn5if7OC2Q4hXsnHwxrSDg7anLuzPnRzUvicPv5R1AXxkjZAS2Xhm7KknwGlx0poBZC7IFNhRyNHnWabn59f7CkwnjAZDZD"
@@ -45,9 +43,8 @@ class MessengerController < ApplicationController
 
  		# function that checks if the user exists based on their text id
  		@checkUserExists = Messagehuman.checkUserExists(@recipient)
-		$HERE = "here"
- 		if @userText.nil? && @checkUserExists == false
-			$INHERE = "INHERE"
+
+ 		if !@ifStart.nil? && @checkUserExists == false && @sentMessage == false
  			Messagehuman.sendMessageBubbles(@recipient)
 	 		sleep(1)
 	 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
@@ -59,7 +56,7 @@ class MessengerController < ApplicationController
  			Messagehuman.sendMessageBubbles(@recipient)
 			sleep(1.5)
 			# sending the default response
-			Messagehuman.sendMessage(@recipient, "you've already signed up!")
+			Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
 			@sentMessage = true
 		else
  		end
@@ -318,8 +315,8 @@ class MessengerController < ApplicationController
 				Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
 			end
  		end
- 	end
 	end
+ 	end
 
  	# method to check if facebook webhook is authentic
  	def check_token
