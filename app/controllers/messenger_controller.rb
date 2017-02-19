@@ -54,15 +54,15 @@ class MessengerController < ApplicationController
  			@sentMessage = true
  		end
 
-		if @weAreHere == false
-				Messagehuman.sendMessage(@recipient, "ready to rumble?")
-	 			Messagehuman.sendMessageBubbles(@recipient)
-		 		sleep(1)
-		 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
-		 		sleep(1)
-	 			Messagehuman.sendButton(@recipient)
-	 			# marking that I did send a messsage
-	 			@sentMessage = true
+		if @weAreHere.false?
+			Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
+			sleep(1)
+			Messagehuman.sendButton(@recipient)
+			# marking that I did send a messsage
+			@sentMessage = true
+		end
+
+		if @weAreHere == false && @sentMessage == false
 	 		elsif !@ifStart.nil? && @checkUserExists == true && @sentMessage == false
 	 			Messagehuman.sendMessageBubbles(@recipient)
 				sleep(1.5)
