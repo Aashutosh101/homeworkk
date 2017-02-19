@@ -11,14 +11,7 @@ class MessengerController < ApplicationController
  		$webhook = JSON.parse(request.raw_post)
  		# person who sent the text; id
  		@recipient = $webhook["entry"][0]["messaging"][0]["sender"]["id"]
-
- 		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"]["payload"].inspect if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
- 		# what text the user sent
- 		if @ifStart.nil?
- 			@userText = $webhook["entry"][0]["messaging"][0]["message"]["text"].downcase unless $webhook["entry"][0]["messaging"][0]["message"].nil?
- 		end
- 		# a list of positve responses to respond with if user doesn't have homework
- 		@positiveResponses = ["that's grrrreat", "that's awesome!", "yay! no homework!", "finally, a break from some homework", "awesome, just what i wanted to hear", "yay, some good news today", "that's almost better than harry potter", "time to celebrate, come on!", "ho ho ho! merry christmas!"].shuffle
+		@positiveResponses = ["that's grrrreat", "that's awesome!", "yay! no homework!", "finally, a break from some homework", "awesome, just what i wanted to hear", "yay, some good news today", "that's almost better than harry potter", "time to celebrate, come on!", "ho ho ho! merry christmas!"].shuffle
 		# a list of negative responses if user has homework
 		@negativeResponses = ["booooo", "what a shame", "ugh, that stinks", "your teacher needs to chill out on the homework", "that's so sad to hear", "that sucks, at least you look good today", "that sucks more than a vacuum", "that's worse than when dumbledore died", "that's too bad, but try not to become a debby downer"].shuffle
 		# if user sends a text, but has nothing to do with homework and they're signed up
@@ -28,10 +21,26 @@ class MessengerController < ApplicationController
 		@sentKeyWords = false
 		@sentConfirmation = false
 		$checkKeyWords = nil
+		# random numbe from 0 to seven, to get a random response from the array
+		randomNum = rand(0..8)
+		if $webhook["entry"][0]["messaging"][0]["message"]["text"].nil? && $webhook["entry"][0]["messaging"][0]["postback"].nil?
+			$STICKER = "youp"
+			$webhook = nil
+			#send the message bubbles
+			Messagehuman.sendMessageBubbles(@recipient)
+			sleep(1.5)
+			# sending the default response
+			Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
+		else
+
+ 		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"]["payload"].inspect if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
+		# what text the user sent
+			if @ifStart.nil?
+				@userText = $webhook["entry"][0]["messaging"][0]["message"]["text"].downcase unless $webhook["entry"][0]["messaging"][0]["message"].nil?
+			end
+ 		# a list of positve responses to respond with if user doesn't have homework
 		# list of all classes that need to be delt with
  		currentClasses = Grouparray.all
- 		# random numbe from 0 to seven, to get a random response from the array
- 		randomNum = rand(0..8)
 
  		if Rails.env.staging?
  			$page_access_token = "EAAIgtnRF648BABaZCpNurJN2GBzjZC6jQZAZCCdQE90mluLc5jooAfHrFgSxsYT2eTeu9sXVjWWiFc1gZBXn5if7OC2Q4hXsnHwxrSDg7anLuzPnRzUvicPv5R1AXxkjZAS2Xhm7KknwGlx0poBZC7IFNhRyNHnWabn59f7CkwnjAZDZD"
@@ -58,7 +67,7 @@ class MessengerController < ApplicationController
 			@sentMessage = true
 		else
  		end
- 		# if @checkUserExists return false, then send the sign up button 
+ 		# if @checkUserExists return false, then send the sign up button
 	 	if @checkUserExists == false && @sentMessage == false
 	 		Messagehuman.sendMessageBubbles(@recipient)
 	 		sleep(1)
@@ -197,7 +206,7 @@ class MessengerController < ApplicationController
 					sleep(1)
 					Messagehuman.sendMessage(@recipient, 'what homework do you have for ' + $subject.downcase + '?') # send the question
 					# markers that I've sent a message
-					@sentKeyWords = true 
+					@sentKeyWords = true
 					@sentMessage = true
 				# on the other hand, if the subject hasn't been found
 				elsif $checkKeyWords == false && !$possibleSubjects.empty? && @sentConfirmation == false
@@ -230,7 +239,7 @@ class MessengerController < ApplicationController
 					#setting the gropus response
 					$groupsResponse = Array.new
 					# setting the markers that I've sent a message
-					@sentMessage = true 
+					@sentMessage = true
 					$groupsResponse.push("8")
 					@sentKeyWords = true
 					@sentConfirmation = true
@@ -249,7 +258,7 @@ class MessengerController < ApplicationController
 
 			if @sentKeyWords == false
 			# for every group in the grouparray (ie, and outstaning group)
-			currentClasses.each do |group| 
+			currentClasses.each do |group|
 				randomNum = rand(0..7)
 				# if a group matches who just sent a message
 				if group.conversation_id == @recipient
@@ -314,6 +323,7 @@ class MessengerController < ApplicationController
 			end
  		end
  	end
+	end
 
  	# method to check if facebook webhook is authentic
  	def check_token
@@ -324,5 +334,5 @@ class MessengerController < ApplicationController
  	# just an inspect page for whatever I watn
  	def webhook_inspect
  	end
- 
+
 end
