@@ -38,7 +38,12 @@ class MessengerController < ApplicationController
  		else
  			$page_access_token = "EAAZAjj9YZAiZC0BAOFT4SiXhnIqinWdveXxBf8AvDMAGMXamAIQobjfYRIv9Iw85UcZBXOqla4XpWtUJ6fooeBpM4LtB9hUwOYeRsokcOKUa40gM9RpKgtCTxHiFde52R4i3PZAfMijyw3NZACCYILq3hWeCipeq5gCLuyZASBn6gZDZD"
  		end
-
+		if @userText == "help" && @sentMessage == false
+ 			Messagehuman.sendMessageBubbles(@recipient)
+ 			sleep(1)
+ 			Messagehuman.sendHelpButton(@recipient)
+ 			@sentMessage = true
+ 		end
  		# function that checks if the user exists based on their text id
  		@checkUserExists = Messagehuman.checkUserExists(@recipient)
 
@@ -51,29 +56,22 @@ class MessengerController < ApplicationController
  			# marking that I did send a messsage
  			@sentMessage = true
  		elsif !@ifStart.nil? && @checkUserExists == true && @sentMessage == false
- 			#Messagehuman.sendMessageBubbles(@recipient)
-			#sleep(1.5)
-			# sending the default response
-			#Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
-			#@sentMessage = true
+ 			Messagehuman.sendMessageBubbles(@recipient)
+			sleep(1.5)
+			 sending the default response
+			Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
+			@sentMessage = true
 		else
  		end
  		# if @checkUserExists return false, then send the sign up button
 	 	if @checkUserExists == false && @sentMessage == false
-	 		#Messagehuman.sendMessageBubbles(@recipient)
-	 		#sleep(1)
-	 		#Messagehuman.sendMessage(@recipient, "hey, you haven't signed up yet - just click below")
-	 		#sleep(1)
- 			#Messagehuman.sendButton(@recipient)
- 			# marking that I did send a messsage
- 			#@sentMessage = true
- 		end
-
- 		if @userText == "help" && @sentMessage == false
- 			#Messagehuman.sendMessageBubbles(@recipient)
- 			#sleep(1)
- 			#Messagehuman.sendHelpButton(@recipient)
- 			#@sentMessage = true
+	 		Messagehuman.sendMessageBubbles(@recipient)
+	 		sleep(1)
+	 		Messagehuman.sendMessage(@recipient, "hey, you haven't signed up yet - just click below")
+	 		sleep(1)
+ 			Messagehuman.sendButton(@recipient)
+ 			 marking that I did send a messsage
+ 			@sentMessage = true
  		end
 
  		if @userText == "pause" && @sentMessage == false
