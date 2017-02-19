@@ -23,6 +23,7 @@ class MessengerController < ApplicationController
 		@sentConfirmation = false
 		$checkKeyWords = nil
 		@userText = nil
+		@weAreHere = false
 		# list of all classes that need to be delt with
  		currentClasses = Grouparray.all
  		# random numbe from 0 to seven, to get a random response from the array
@@ -34,7 +35,8 @@ class MessengerController < ApplicationController
  		# what text the user sent
  		if @ifStart.nil?
  			@userText = $webhook["entry"][0]["messaging"][0]["message"]["text"].downcase unless $webhook["entry"][0]["messaging"][0]["message"].nil?
- 		end
+			@weAreHere = true
+		end
 
  		if Rails.env.staging?
  			$page_access_token = "EAAIgtnRF648BABaZCpNurJN2GBzjZC6jQZAZCCdQE90mluLc5jooAfHrFgSxsYT2eTeu9sXVjWWiFc1gZBXn5if7OC2Q4hXsnHwxrSDg7anLuzPnRzUvicPv5R1AXxkjZAS2Xhm7KknwGlx0poBZC7IFNhRyNHnWabn59f7CkwnjAZDZD"
@@ -52,7 +54,8 @@ class MessengerController < ApplicationController
  			@sentMessage = true
  		end
 
-		if @userText.nil? || @userText.blank?
+		if @weAreHere.false?
+				Messagehuman.sendMessage(@recipient, "ready to rumble?")
 	 			Messagehuman.sendMessageBubbles(@recipient)
 		 		sleep(1)
 		 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
