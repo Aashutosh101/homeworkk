@@ -21,7 +21,7 @@ class MessengerController < ApplicationController
 		@sentKeyWords = false
 		@sentConfirmation = false
 		$checkKeyWords = nil
-		 @ifStart = $webhook["entry"][0]["messaging"][0]["postback"]["payload"].inspect if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
+		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"]["payload"].inspect if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
 		# random numbe from 0 to seven, to get a random response from the array
 		randomNum = rand(0..8)
 		if $webhook["entry"][0]["messaging"][0]["message"]["text"].nil? && $webhook["entry"][0]["messaging"][0]["postback"].nil?
@@ -39,12 +39,6 @@ class MessengerController < ApplicationController
  			$page_access_token = "EAAIgtnRF648BABaZCpNurJN2GBzjZC6jQZAZCCdQE90mluLc5jooAfHrFgSxsYT2eTeu9sXVjWWiFc1gZBXn5if7OC2Q4hXsnHwxrSDg7anLuzPnRzUvicPv5R1AXxkjZAS2Xhm7KknwGlx0poBZC7IFNhRyNHnWabn59f7CkwnjAZDZD"
  		else
  			$page_access_token = "EAAZAjj9YZAiZC0BAOFT4SiXhnIqinWdveXxBf8AvDMAGMXamAIQobjfYRIv9Iw85UcZBXOqla4XpWtUJ6fooeBpM4LtB9hUwOYeRsokcOKUa40gM9RpKgtCTxHiFde52R4i3PZAfMijyw3NZACCYILq3hWeCipeq5gCLuyZASBn6gZDZD"
- 		end
-		if @userText == "help" && @sentMessage == false
- 			Messagehuman.sendMessageBubbles(@recipient)
- 			sleep(1)
- 			Messagehuman.sendHelpButton(@recipient)
- 			@sentMessage = true
  		end
  		# function that checks if the user exists based on their text id
  		@checkUserExists = Messagehuman.checkUserExists(@recipient)
@@ -64,6 +58,12 @@ class MessengerController < ApplicationController
 			Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
 			@sentMessage = true
 		else
+ 		end
+		if @userText == "help" && @sentMessage == false
+ 			Messagehuman.sendMessageBubbles(@recipient)
+ 			sleep(1)
+ 			Messagehuman.sendHelpButton(@recipient)
+ 			@sentMessage = true
  		end
  		# if @checkUserExists return false, then send the sign up button
 	 	if @checkUserExists == false && @sentMessage == false
