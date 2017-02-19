@@ -21,20 +21,13 @@ class MessengerController < ApplicationController
 		@sentKeyWords = false
 		@sentConfirmation = false
 		$checkKeyWords = nil
-		# function that checks if the user exists based on their text id
-		@checkUserExists = Messagehuman.checkUserExists(@recipient)
-		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"] if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
 		# random numbe from 0 to seven, to get a random response from the array
 		randomNum = rand(0..8)
 		if $webhook["entry"][0]["messaging"][0]["message"]["text"].nil? && $webhook["entry"][0]["messaging"][0]["postback"].nil?
 			count = 1
-		elsif !@ifStart.nil? && @checkUserExists == false && @sentMessage == false
-	 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
-	 		sleep(1)
- 			Messagehuman.sendButton(@recipient)
- 			# marking that I did send a messsage
- 			@sentMessage = true
 		else
+
+ 		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"]["payload"].inspect if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
 		# what text the user sent
 			if @ifStart.nil?
 				@userText = $webhook["entry"][0]["messaging"][0]["message"]["text"].downcase unless $webhook["entry"][0]["messaging"][0]["message"].nil?
@@ -49,19 +42,24 @@ class MessengerController < ApplicationController
  			$page_access_token = "EAAZAjj9YZAiZC0BAOFT4SiXhnIqinWdveXxBf8AvDMAGMXamAIQobjfYRIv9Iw85UcZBXOqla4XpWtUJ6fooeBpM4LtB9hUwOYeRsokcOKUa40gM9RpKgtCTxHiFde52R4i3PZAfMijyw3NZACCYILq3hWeCipeq5gCLuyZASBn6gZDZD"
  		end
 
- 		if !@ifStart.nil? && @checkUserExists == true && @sentMessage == false
+ 		# function that checks if the user exists based on their text id
+ 		@checkUserExists = Messagehuman.checkUserExists(@recipient)
+
+ 		if !@ifStart.nil? && @checkUserExists == false && @sentMessage == false
+ 			Messagehuman.sendMessageBubbles(@recipient)
+	 		sleep(1)
+	 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
+	 		sleep(1)
+ 			Messagehuman.sendButton(@recipient)
+ 			# marking that I did send a messsage
+ 			@sentMessage = true
+ 		elsif !@ifStart.nil? && @checkUserExists == true && @sentMessage == false
  			Messagehuman.sendMessageBubbles(@recipient)
 			sleep(1.5)
-			#sending the default response
+			# sending the default response
 			Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
 			@sentMessage = true
 		else
- 		end
-		if @userText == "help" && @sentMessage == false
- 			Messagehuman.sendMessageBubbles(@recipient)
- 			sleep(1)
- 			Messagehuman.sendHelpButton(@recipient)
- 			@sentMessage = true
  		end
  		# if @checkUserExists return false, then send the sign up button
 	 	if @checkUserExists == false && @sentMessage == false
@@ -70,8 +68,14 @@ class MessengerController < ApplicationController
 	 		Messagehuman.sendMessage(@recipient, "hey, you haven't signed up yet - just click below")
 	 		sleep(1)
  			Messagehuman.sendButton(@recipient)
- 			 #marking that I did send a messsage
-			 count = 1
+ 			# marking that I did send a messsage
+ 			@sentMessage = true
+ 		end
+
+ 		if @userText == "help" && @sentMessage == false
+ 			Messagehuman.sendMessageBubbles(@recipient)
+ 			sleep(1)
+ 			Messagehuman.sendHelpButton(@recipient)
  			@sentMessage = true
  		end
 
@@ -300,6 +304,7 @@ class MessengerController < ApplicationController
 						@sentMessage = true
 					else
 					end
+					end
 				end
 			end
 			# if there has been no message sent, then send a default response
@@ -307,12 +312,11 @@ class MessengerController < ApplicationController
 				#send the message bubbles
 				Messagehuman.sendMessageBubbles(@recipient)
 				sleep(1.5)
-				 #sending the default response
+				# sending the default response
 				Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
 			end
  		end
- 		end
-	end
+ 	end
 	end
 
  	# method to check if facebook webhook is authentic
