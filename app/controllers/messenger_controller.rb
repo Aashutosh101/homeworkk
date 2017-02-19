@@ -29,6 +29,7 @@ class MessengerController < ApplicationController
 
  		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"]["payload"].inspect if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
 		# what text the user sent
+		$ifStart = @ifStart
 			if @ifStart.nil?
 				@userText = $webhook["entry"][0]["messaging"][0]["message"]["text"].downcase unless $webhook["entry"][0]["messaging"][0]["message"].nil?
 			end
@@ -44,8 +45,9 @@ class MessengerController < ApplicationController
 
  		# function that checks if the user exists based on their text id
  		@checkUserExists = Messagehuman.checkUserExists(@recipient)
-
+		$HERE = "here"
  		if @userText.nil? && @checkUserExists == false
+			$INHERE = "INHERE"
  			Messagehuman.sendMessageBubbles(@recipient)
 	 		sleep(1)
 	 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
