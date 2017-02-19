@@ -67,12 +67,13 @@ class MessengerController < ApplicationController
  		end
  		# if @checkUserExists return false, then send the sign up button
 	 	if @checkUserExists == false && @sentMessage == false
-	 		Messagehuman.sendMessageBubbles(@recipient)
-	 		sleep(1)
-	 		Messagehuman.sendMessage(@recipient, "hey, you haven't signed up yet - just click below")
-	 		sleep(1)
- 			Messagehuman.sendButton(@recipient)
+	 		#Messagehuman.sendMessageBubbles(@recipient)
+	 		#sleep(1)
+	 		#Messagehuman.sendMessage(@recipient, "hey, you haven't signed up yet - just click below")
+	 		#sleep(1)
+ 			#Messagehuman.sendButton(@recipient)
  			 #marking that I did send a messsage
+			 count = 1
  			@sentMessage = true
  		end
 
