@@ -28,7 +28,7 @@ class MessengerController < ApplicationController
  		currentClasses = Grouparray.all
  		# random numbe from 0 to seven, to get a random response from the array
  		randomNum = rand(0..8)
-		if !$webhook["entry"][0]["messaging"][0]["message"]["sticker_id"].inspect.nil? && $webhook["entry"][0]["messaging"][0]["postback"].nil?
+		if $webhook["entry"][0]["messaging"][0]["message"]["sticker_id"].inspect.nil? && $webhook["entry"][0]["messaging"][0]["postback"].nil?
 			count = 1
 		else
 		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"] if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
