@@ -22,6 +22,7 @@ class MessengerController < ApplicationController
 		@sentKeyWords = false
 		@sentConfirmation = false
 		$checkKeyWords = nil
+		@userText = nil
 		# list of all classes that need to be delt with
  		currentClasses = Grouparray.all
  		# random numbe from 0 to seven, to get a random response from the array
@@ -51,7 +52,7 @@ class MessengerController < ApplicationController
  			@sentMessage = true
  		end
 
-		if @userText.nil?
+		if @userText.nil? || @userText.blank?
 	 			Messagehuman.sendMessageBubbles(@recipient)
 		 		sleep(1)
 		 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
