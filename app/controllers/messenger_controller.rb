@@ -21,11 +21,21 @@ class MessengerController < ApplicationController
 		@sentKeyWords = false
 		@sentConfirmation = false
 		$checkKeyWords = nil
+		# function that checks if the user exists based on their text id
+		@checkUserExists = Messagehuman.checkUserExists(@recipient)
 		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"]["payload"].inspect if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
 		# random numbe from 0 to seven, to get a random response from the array
 		randomNum = rand(0..8)
 		if $webhook["entry"][0]["messaging"][0]["message"]["text"].nil? && $webhook["entry"][0]["messaging"][0]["postback"].nil?
 			count = 1
+		elsif !@ifStart.nil? && @checkUserExists == false && @sentMessage == false
+			Messagehuman.sendMessageBubbles(@recipient)
+	 		sleep(1)
+	 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
+	 		sleep(1)
+ 			Messagehuman.sendButton(@recipient)
+ 			# marking that I did send a messsage
+ 			@sentMessage = true
 		else
 		# what text the user sent
 			if @ifStart.nil?
@@ -40,21 +50,11 @@ class MessengerController < ApplicationController
  		else
  			$page_access_token = "EAAZAjj9YZAiZC0BAOFT4SiXhnIqinWdveXxBf8AvDMAGMXamAIQobjfYRIv9Iw85UcZBXOqla4XpWtUJ6fooeBpM4LtB9hUwOYeRsokcOKUa40gM9RpKgtCTxHiFde52R4i3PZAfMijyw3NZACCYILq3hWeCipeq5gCLuyZASBn6gZDZD"
  		end
- 		# function that checks if the user exists based on their text id
- 		@checkUserExists = Messagehuman.checkUserExists(@recipient)
 
- 		if !@ifStart.nil? && @checkUserExists == false && @sentMessage == false
- 			Messagehuman.sendMessageBubbles(@recipient)
-	 		sleep(1)
-	 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
-	 		sleep(1)
- 			Messagehuman.sendButton(@recipient)
- 			# marking that I did send a messsage
- 			@sentMessage = true
- 		elsif !@ifStart.nil? && @checkUserExists == true && @sentMessage == false
+ 		if !@ifStart.nil? && @checkUserExists == true && @sentMessage == false
  			Messagehuman.sendMessageBubbles(@recipient)
 			sleep(1.5)
-			 sending the default response
+			#sending the default response
 			Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
 			@sentMessage = true
 		else
