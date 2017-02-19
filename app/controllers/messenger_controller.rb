@@ -64,7 +64,7 @@ class MessengerController < ApplicationController
 	 			Messagehuman.sendMessageBubbles(@recipient)
 				sleep(1.5)
 				# sending the default response
-				Messagehuman.sendMessage(@recipient, "BU DUH")
+				Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
 				@sentMessage = true
 			else
 		end
@@ -313,7 +313,7 @@ class MessengerController < ApplicationController
 				Messagehuman.sendMessageBubbles(@recipient)
 				sleep(1.5)
 				# sending the default response
-				Messagehuman.sendMessage(@recipient, "That's Cool!")
+				Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
 			end
  		end
 	end
