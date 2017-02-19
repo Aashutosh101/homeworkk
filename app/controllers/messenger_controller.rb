@@ -318,6 +318,7 @@ class MessengerController < ApplicationController
  		end
  		end
 	end
+	end
 
  	# method to check if facebook webhook is authentic
  	def check_token
