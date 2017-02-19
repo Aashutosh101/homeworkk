@@ -44,22 +44,29 @@ class MessengerController < ApplicationController
  		# function that checks if the user exists based on their text id
  		@checkUserExists = Messagehuman.checkUserExists(@recipient)
 
- 		if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
+		if @userText == "help" && @sentMessage == false
  			Messagehuman.sendMessageBubbles(@recipient)
-	 		sleep(1)
-	 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
-	 		sleep(1)
- 			Messagehuman.sendButton(@recipient)
- 			# marking that I did send a messsage
+ 			sleep(1)
+ 			Messagehuman.sendHelpButton(@recipient)
  			@sentMessage = true
- 		elsif !@ifStart.nil? && @checkUserExists == true && @sentMessage == false
- 			Messagehuman.sendMessageBubbles(@recipient)
-			sleep(1.5)
-			# sending the default response
-			Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
-			@sentMessage = true
-		else
  		end
+
+		if @userText.nil?
+	 			Messagehuman.sendMessageBubbles(@recipient)
+		 		sleep(1)
+		 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
+		 		sleep(1)
+	 			Messagehuman.sendButton(@recipient)
+	 			# marking that I did send a messsage
+	 			@sentMessage = true
+	 		elsif !@ifStart.nil? && @checkUserExists == true && @sentMessage == false
+	 			Messagehuman.sendMessageBubbles(@recipient)
+				sleep(1.5)
+				# sending the default response
+				Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
+				@sentMessage = true
+			else
+		end
  		# if @checkUserExists return false, then send the sign up button
 	 	if @checkUserExists == false && @sentMessage == false
 	 		Messagehuman.sendMessageBubbles(@recipient)
@@ -68,13 +75,6 @@ class MessengerController < ApplicationController
 	 		sleep(1)
  			Messagehuman.sendButton(@recipient)
  			# marking that I did send a messsage
- 			@sentMessage = true
- 		end
-
- 		if @userText == "help" && @sentMessage == false
- 			Messagehuman.sendMessageBubbles(@recipient)
- 			sleep(1)
- 			Messagehuman.sendHelpButton(@recipient)
  			@sentMessage = true
  		end
 
