@@ -51,29 +51,29 @@ class MessengerController < ApplicationController
  			# marking that I did send a messsage
  			@sentMessage = true
  		elsif !@ifStart.nil? && @checkUserExists == true && @sentMessage == false
- 			Messagehuman.sendMessageBubbles(@recipient)
-			sleep(1.5)
+ 			#Messagehuman.sendMessageBubbles(@recipient)
+			#sleep(1.5)
 			# sending the default response
-			Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
-			@sentMessage = true
+			#Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
+			#@sentMessage = true
 		else
  		end
  		# if @checkUserExists return false, then send the sign up button
 	 	if @checkUserExists == false && @sentMessage == false
-	 		Messagehuman.sendMessageBubbles(@recipient)
-	 		sleep(1)
-	 		Messagehuman.sendMessage(@recipient, "hey, you haven't signed up yet - just click below")
-	 		sleep(1)
- 			Messagehuman.sendButton(@recipient)
+	 		#Messagehuman.sendMessageBubbles(@recipient)
+	 		#sleep(1)
+	 		#Messagehuman.sendMessage(@recipient, "hey, you haven't signed up yet - just click below")
+	 		#sleep(1)
+ 			#Messagehuman.sendButton(@recipient)
  			# marking that I did send a messsage
- 			@sentMessage = true
+ 			#@sentMessage = true
  		end
 
  		if @userText == "help" && @sentMessage == false
- 			Messagehuman.sendMessageBubbles(@recipient)
- 			sleep(1)
- 			Messagehuman.sendHelpButton(@recipient)
- 			@sentMessage = true
+ 			#Messagehuman.sendMessageBubbles(@recipient)
+ 			#sleep(1)
+ 			#Messagehuman.sendHelpButton(@recipient)
+ 			#@sentMessage = true
  		end
 
  		if @userText == "pause" && @sentMessage == false
@@ -301,16 +301,15 @@ class MessengerController < ApplicationController
 						@sentMessage = true
 					else
 					end
-					
 				end
 			end
 			# if there has been no message sent, then send a default response
 			if @sentMessage == false
 				#send the message bubbles
-				Messagehuman.sendMessageBubbles(@recipient)
-				sleep(1.5)
+				#Messagehuman.sendMessageBubbles(@recipient)
+				#sleep(1.5)
 				# sending the default response
-				Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
+				#Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
 			end
  		end
  	end
