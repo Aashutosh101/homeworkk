@@ -303,11 +303,11 @@ class MessengerController < ApplicationController
 			end
 			# if there has been no message sent, then send a default response
 			if @sentMessage == false
-				#send the message bubbles
-				#Messagehuman.sendMessageBubbles(@recipient)
-				#sleep(1.5)
-				# sending the default response
-				#Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
+				send the message bubbles
+				Messagehuman.sendMessageBubbles(@recipient)
+				sleep(1.5)
+				 sending the default response
+				Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
 			end
  		end
  	end
