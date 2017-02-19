@@ -44,7 +44,7 @@ class MessengerController < ApplicationController
  		# function that checks if the user exists based on their text id
  		@checkUserExists = Messagehuman.checkUserExists(@recipient)
 
- 		if !@ifStart.nil? && @checkUserExists == false && @sentMessage == false
+ 		if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
  			Messagehuman.sendMessageBubbles(@recipient)
 	 		sleep(1)
 	 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
