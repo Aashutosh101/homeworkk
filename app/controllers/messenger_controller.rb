@@ -54,7 +54,7 @@ class MessengerController < ApplicationController
  			@sentMessage = true
  		end
 
-		if @userText.nil? || @userText.blank?
+		if @we == false
 	 			Messagehuman.sendMessageBubbles(@recipient)
 		 		sleep(1)
 		 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
