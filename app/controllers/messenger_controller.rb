@@ -23,14 +23,12 @@ class MessengerController < ApplicationController
 		$checkKeyWords = nil
 		# function that checks if the user exists based on their text id
 		@checkUserExists = Messagehuman.checkUserExists(@recipient)
-		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"]["payload"].inspect if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
+		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"] if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
 		# random numbe from 0 to seven, to get a random response from the array
 		randomNum = rand(0..8)
 		if $webhook["entry"][0]["messaging"][0]["message"]["text"].nil? && $webhook["entry"][0]["messaging"][0]["postback"].nil?
 			count = 1
 		elsif !@ifStart.nil? && @checkUserExists == false && @sentMessage == false
-			Messagehuman.sendMessageBubbles(@recipient)
-	 		sleep(1)
 	 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
 	 		sleep(1)
  			Messagehuman.sendButton(@recipient)
