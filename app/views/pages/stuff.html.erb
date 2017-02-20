@@ -1,6 +1,2 @@
-<% if params[:conversation_id].blank? || params[:conversation_id].nil? %>
-  <% redirect_pages() %>
-<% else %>
   <% $conversation_id = params[:conversation_id] %>
   <% redirect_fb() %>
-<% end %>

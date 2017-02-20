@@ -35,8 +35,4 @@ class PagesController < ApplicationController
     end
     helper_method :redirect_fb
 
-  def redirect_home
-  	redirect_to root_path, notice: 'sorry, you may not access that page.'
-  end
-  helper_method :redirect_home
 end
