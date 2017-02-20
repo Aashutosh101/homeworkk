@@ -1,6 +1,6 @@
 <div class="panel panel-default">
 	<div class="panel-body">
-		
+
     <%= form_for(@user, url: groups_path, method: 'get', validate: true) do |f| %>
       <%= devise_error_messages! %>
 
@@ -16,3 +16,4 @@
 
 		<!-- need to figure out how to edit the following line properly -->
 </div>
+<%= $conversation_id.inspect %>

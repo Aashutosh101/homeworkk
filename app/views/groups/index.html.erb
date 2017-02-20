@@ -6,7 +6,6 @@
 <div class="white-container">
 <br>
 	<h1 class="center"><%= current_user.first_name + "'s" %> Classes</h1>
-
 <div class="body-left">
 	<% classDay = checkHomeworkDay %>
 	<%= link_to 'Create Classes For ' + classDay.capitalize, new_group_path, class: "btn-custom" if !classDay.nil? %>
@@ -33,7 +32,7 @@
 	    		<% group.update(extra_class: false) %>
 	    	<% end %>
 	    	<% ifHomework = checkIfHomework(group) %>
-		     <div class="row"><div class="cell"><%= group.group_name %></div><div class="cell"><%= group.end_time.strftime("%l:%M %p").to_s %></div><div class="cell"><%= group.homework_assignment %></div></div> 
+		     <div class="row"><div class="cell"><%= group.group_name %></div><div class="cell"><%= group.end_time.strftime("%l:%M %p").to_s %></div><div class="cell"><%= group.homework_assignment %></div></div>
 	    <% counter += 1 %>
 	    <% end %>
 	</div>
@@ -61,7 +60,7 @@
 	    		<% group.update(extra_class: false) %>
 	    	<% end %>
 	    	<% ifHomework = checkIfHomework(group) %>
-		     <div class="row"><div class="cell"><%= group.group_name %></div><div class="cell"><%= group.end_time.strftime("%l:%M %p").to_s %></div><div class="cell"><%= group.homework_assignment %></div></div> 
+		     <div class="row"><div class="cell"><%= group.group_name %></div><div class="cell"><%= group.end_time.strftime("%l:%M %p").to_s %></div><div class="cell"><%= group.homework_assignment %></div></div>
 	    <% counter += 1 %>
 	    <% end %>
 	</div>
@@ -89,7 +88,7 @@
 	    		<% group.update(extra_class: false) %>
 	    	<% end %>
 	    	<% ifHomework = checkIfHomework(group) %>
-		     <div class="row"><div class="cell"><%= group.group_name %></div><div class="cell"><%= group.end_time.strftime("%l:%M %p").to_s %></div><div class="cell"><%= group.homework_assignment %></div></div> 
+		     <div class="row"><div class="cell"><%= group.group_name %></div><div class="cell"><%= group.end_time.strftime("%l:%M %p").to_s %></div><div class="cell"><%= group.homework_assignment %></div></div>
 	    <% counter += 1 %>
 	    <% end %>
 	</div>
@@ -117,7 +116,7 @@
 	    		<% group.update(extra_class: false) %>
 	    	<% end %>
 	    	<% ifHomework = checkIfHomework(group) %>
-		     <div class="row"><div class="cell"><%= group.group_name %></div><div class="cell"><%= group.end_time.strftime("%l:%M %p").to_s %></div><div class="cell"><%= group.homework_assignment %></div></div> 
+		     <div class="row"><div class="cell"><%= group.group_name %></div><div class="cell"><%= group.end_time.strftime("%l:%M %p").to_s %></div><div class="cell"><%= group.homework_assignment %></div></div>
 	    <% counter += 1 %>
 	    <% end %>
 	</div>
@@ -146,7 +145,7 @@
 	    		<% group.update(extra_class: false) %>
 	    	<% end %>
 	    	<% ifHomework = checkIfHomework(group) %>
-		     <div class="row"><div class="cell"><%= group.group_name %></div><div class="cell"><%= group.end_time.strftime("%l:%M %p").to_s %></div><div class="cell"><%= group.homework_assignment %></div></div> 
+		     <div class="row"><div class="cell"><%= group.group_name %></div><div class="cell"><%= group.end_time.strftime("%l:%M %p").to_s %></div><div class="cell"><%= group.homework_assignment %></div></div>
 	    <% counter += 1 %>
 	    <% end %>
 	</div>
@@ -155,4 +154,3 @@
 </div>
 </div>
 <% end %>
-
