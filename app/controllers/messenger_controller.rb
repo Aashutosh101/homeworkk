@@ -28,7 +28,7 @@ class MessengerController < ApplicationController
  		currentClasses = Grouparray.all
  		# random numbe from 0 to seven, to get a random response from the array
  		randomNum = rand(0..8)
-		if !$webhook.to_s.include?("text") && $webhook ["entry"][0]["messaging"][0]["postback"]["payload"] == "USER_DEFINED_PAYLOAD"
+		if !$webhook.to_s.include?("text") && $webhook["entry"][0]["messaging"][0]["postback"]["payload"] == "USER_DEFINED_PAYLOAD" && $webhook["entry"][0]["messaging"][0]["message"].count != 3
 			Messagehuman.sendMessageBubbles(@recipient)
 			sleep(1)
 			Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
