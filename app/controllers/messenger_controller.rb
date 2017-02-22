@@ -30,6 +30,7 @@ class MessengerController < ApplicationController
  		randomNum = rand(0..8)
 		if $webhook["entry"][0]["messaging"][0]["postback"].nil? && $webhook["entry"][0]["messaging"][0]["message"].count != 3
 			count = 1
+			Messagehuman.sendMessage("IT IS HEREEEE")
 		else
 		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"] if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
  		# what text the user sent
