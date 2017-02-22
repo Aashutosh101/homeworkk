@@ -28,9 +28,8 @@ class MessengerController < ApplicationController
  		currentClasses = Grouparray.all
  		# random numbe from 0 to seven, to get a random response from the array
  		randomNum = rand(0..8)
-		if $webhook["entry"][0]["messaging"][0]["postback"].nil? && $webhook["entry"][0]["messaging"][0]["message"].count != 3
+		if $webhook["entry"][0]["messaging"][0]["postback"].nil? && ($webhook["entry"][0]["messaging"][0]["message"].count != 3 || $webhook["entry"][0]["messaging"][0]["message"] != 4)
 			count = 1
-			Messagehuman.sendMessage("IT IS HEREEEE")
 		else
 		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"] if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
  		# what text the user sent
@@ -38,7 +37,6 @@ class MessengerController < ApplicationController
 			if !$webhook["entry"][0]["messaging"][0]["message"].nil? && !$webhook["entry"][0]["messaging"][0]["message"]["text"].nil?
  			@userText = $webhook["entry"][0]["messaging"][0]["message"]["text"] unless $webhook["entry"][0]["messaging"][0]["message"].nil?
 			@userText = @userText.downcase
-			Messagehuman.sendMessage(@recipient, "HERE 1")
 			@we = true
 		end
 		end
@@ -127,7 +125,6 @@ class MessengerController < ApplicationController
  			Messagehuman.sendUserHomework(@recipient)
  			@sentMessage = true
  		end
-		Messagehuman.sendMessage(@recipient, "HERE 2")
 
  		if @userText == "share" && @sentMessage == false
  			Messagehuman.sendShareButton(@recipient)
@@ -197,10 +194,8 @@ class MessengerController < ApplicationController
 
 			# checking for key words (this would only happen if the other stuff above hasn't happend)
 			$checkKeyWords = Messagehuman.checkKeyWords(@recipient, @userText) if @sentMessage == false
-			Messagehuman.sendMessage(@recipient, "HERE 3")
 			if !$checkKeyWords.nil? # if the function doesn't return nil
 		 	if $checkKeyWords == true # if true, which means, all keywords were found
-				Messagehuman.sendMessage(@recipient, "HERE 4")
 		 		Messagehuman.sendMessageBubbles(@recipient) # send message bubbles
 					sleep(1) # let the code sleep for 1 second
 					Messagehuman.sendMessage(@recipient, @negativeResponses[randomNum]) # send a negative response
@@ -212,7 +207,6 @@ class MessengerController < ApplicationController
 					@sentMessage = true
 				# on the other hand, if the subject hasn't been found
 				elsif $checkKeyWords == false && !$possibleSubjects.empty? && @sentConfirmation == false
-					Messagehuman.sendMessage(@recipient, "HERE 5")
 					Messagehuman.sendMessageBubbles(@recipient)
 					sleep(1)
 					# send the message of what they meant to type
@@ -233,13 +227,11 @@ class MessengerController < ApplicationController
 						end
 					end
 				elsif $checkKeyWords == -7 && @sentConfirmation == false
-					Messagehuman.sendMessage(@recipient, "HERE 6")
 					Messagehuman.sendMessageBubbles(@recipient)
 					sleep(1)
 					Messagehuman.sendMessage(@recipient, @positiveResponses[randomNum])
 					@sentMessage = true
 				elsif $checkKeyWords == -12 && @sentConfirmation == false
-					Messagehuman.sendMessage(@recipient, "HERE 7")
 					Messagehuman.sendGroupConfirmMessage(@recipient, $possibleSubjects, false)
 					#setting the gropus response
 					$groupsResponse = Array.new
@@ -264,13 +256,11 @@ class MessengerController < ApplicationController
 			if @sentKeyWords == false
 			# for every group in the grouparray (ie, and outstaning group)
 			currentClasses.each do |group|
-				Messagehuman.sendMessage(@recipient, "HERE 8")
 				randomNum = rand(0..7)
 				# if a group matches who just sent a message
 				if group.conversation_id == @recipient
 					# if the user has said yes
 					if @userText == "yes"
-						Messagehuman.sendMessage(@recipient, "HERE 9")
 						# find the group, the user was talking about
 						@group = Group.find_by(conversation_id: group.conversation_id, group_name: group.group_name, group_day: group.group_day)
 						# putsing into the logs the class
@@ -288,7 +278,6 @@ class MessengerController < ApplicationController
 						@sentMessage = true # marker that I sent a message
 					# if the user responds no
 					elsif @userText == "no"
-						Messagehuman.sendMessage(@recipient, "HERE 10")
 						# send the messsage bubbles
 						Messagehuman.sendMessageBubbles(group.conversation_id)
 						sleep(2) # sleep in the code for 2 secs
@@ -321,17 +310,14 @@ class MessengerController < ApplicationController
 					end
 				end
 			end
-			Messagehuman.sendMessage(@recipient, "HERE 11")
 			# if there has been no message sent, then send a default response
 			if @sentMessage == false
-				Messagehuman.sendMessage(@recipient, "HERE 12")
 				#send the message bubbles
 				Messagehuman.sendMessageBubbles(@recipient)
 				sleep(1.5)
 				# sending the default response
 				Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
 			end
-			Messagehuman.sendMessage(@recipient, "HERE 13")
  		end
 	end
  	end
