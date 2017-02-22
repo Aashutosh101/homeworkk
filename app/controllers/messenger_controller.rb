@@ -28,7 +28,21 @@ class MessengerController < ApplicationController
  		currentClasses = Grouparray.all
  		# random numbe from 0 to seven, to get a random response from the array
  		randomNum = rand(0..8)
-		if !$webhook.to_s.include?("text") && $webhook["entry"][0]["messaging"][0]["message"].count != 3 && $webhook["entry"][0]["messaging"][0]["message"]["quick_replies"].nil?
+		if !$webhook.to_s.include?("text") && $webhook ["entry"][0]["messaging"][0]["postback"]["payload"] == "USER_DEFINED_PAYLOAD"
+			Messagehuman.sendMessageBubbles(@recipient)
+			sleep(1)
+			Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
+			sleep(1)
+			Messagehuman.sendButton(@recipient)
+			# marking that I did send a messsage
+			@sentMessage = true
+		elsif !@ifStart.nil? && @checkUserExists == true && @sentMessage == false
+			Messagehuman.sendMessageBubbles(@recipient)
+			sleep(1.5)
+			# sending the default response
+			Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
+			@sentMessage = true
+		elsif !$webhook.to_s.include?("text") && $webhook["entry"][0]["messaging"][0]["message"].count != 3 && $webhook["entry"][0]["messaging"][0]["message"]["quick_replies"].nil?
 			count = 1
 		else
 		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"] if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
@@ -56,22 +70,6 @@ class MessengerController < ApplicationController
  			@sentMessage = true
  		end
 
-		if !@ifStart.nil?
-	 			Messagehuman.sendMessageBubbles(@recipient)
-		 		sleep(1)
-		 		Messagehuman.sendMessage(@recipient, "hey, i'm christopher bot, i really hope you sign up for my awesome services")
-		 		sleep(1)
-	 			Messagehuman.sendButton(@recipient)
-	 			# marking that I did send a messsage
-	 			@sentMessage = true
-	 		elsif !@ifStart.nil? && @checkUserExists == true && @sentMessage == false
-				Messagehuman.sendMessageBubbles(@recipient)
-				sleep(1.5)
-				# sending the default response
-				Messagehuman.sendMessage(@recipient, @defaultResponses[randomNum])
-				@sentMessage = true
-			else
-		end
  		# if @checkUserExists return false, then send the sign up button
 	 	if @checkUserExists == false && @sentMessage == false
 	 		Messagehuman.sendMessageBubbles(@recipient)
