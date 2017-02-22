@@ -23,15 +23,13 @@ class MessengerController < ApplicationController
 		@sentConfirmation = false
 		$checkKeyWords = nil
 		@userText = nil
-		@we = false
-		@we = true
+
 		# list of all classes that need to be delt with
  		currentClasses = Grouparray.all
  		# random numbe from 0 to seven, to get a random response from the array
  		randomNum = rand(0..8)
-		if !$webhook["entry"][0]["messaging"][0]["postback"].nil? && $webhook["entry"][0]["messaging"][0]["message"].count != 3 && $webhook["entry"][0]["messaging"][0]["message"]["quick_replies"].nil?
+		if $webhook["entry"][0]["messaging"][0]["postback"].nil? && $webhook["entry"][0]["messaging"][0]["message"].count != 3 && $webhook["entry"][0]["messaging"][0]["message"]["quick_replies"].nil?
 			count = 1
-			@we = false
 		else
 		@ifStart = $webhook["entry"][0]["messaging"][0]["postback"] if !$webhook["entry"][0]["messaging"][0]["postback"].nil?
  		# what text the user sent
@@ -39,7 +37,6 @@ class MessengerController < ApplicationController
 			if !$webhook["entry"][0]["messaging"][0]["message"].nil? && !$webhook["entry"][0]["messaging"][0]["message"]["text"].nil?
  			@userText = $webhook["entry"][0]["messaging"][0]["message"]["text"] unless $webhook["entry"][0]["messaging"][0]["message"].nil?
 			@userText = @userText.downcase
-			@we = false
 		end
 		end
 
