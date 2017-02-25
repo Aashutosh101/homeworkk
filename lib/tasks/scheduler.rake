@@ -136,7 +136,7 @@ task :send_homework => :environment do
 				counter = 1
 				if !homeworkGroups.nil?
 				homeworkGroups.each do |group|
-					if !group.nil?
+					if !group.nil? && !group.group_name.nil? && !group.homework_assignment.nil?
 						if counter != 1
 							homeworkGroupsString = homeworkGroupsString + ", " + group.group_name + ": " + group.homework_assignment + "\n"
 						else
