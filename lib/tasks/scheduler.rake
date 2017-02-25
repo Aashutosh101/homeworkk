@@ -15,7 +15,7 @@ task :message_task => :environment do
 		else
 			#puts "end_time 1: " + group.end_time.inspect
 			group.end_time = group.end_time - group.time_zone.hours
-			#puts "end_time 2: " + group.end_time 
+			#puts "end_time 2: " + group.end_time
 		end
 
 
@@ -129,10 +129,12 @@ task :send_homework => :environment do
 				homeworkGroupsString = String.new
 				counter = 1
 				homeworkGroups.each do |group|
-					if counter != 1
-						homeworkGroupsString = homeworkGroupsString + ", " + group.group_name + ": " + group.homework_assignment + "\n"
-					else
-						homeworkGroupsString = homeworkGroupsString + group.group_name + ": " + group.homework_assignment + "\n"
+					if !group.nil?
+						if counter != 1
+							homeworkGroupsString = homeworkGroupsString + ", " + group.group_name + ": " + group.homework_assignment + "\n"
+						else
+							homeworkGroupsString = homeworkGroupsString + group.group_name + ": " + group.homework_assignment + "\n"
+						end
 					end
 				end
 				puts 'user send to: ' + user.first_name.to_s
