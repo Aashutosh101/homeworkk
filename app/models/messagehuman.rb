@@ -23,7 +23,7 @@ class Messagehuman
  			headers: { 'Content-Type' => 'application/json' }
 		)
 	end
-  
+
   def self.string_difference_percent(a, b)
     longer = [a.size, b.size].max
     same = a.each_char.zip(b.each_char).select { |a,b| a == b }.size
@@ -56,8 +56,8 @@ class Messagehuman
    			quick_replies: [
       	{
         	content_type: "text",
-        	title: "yes", 
-        	payload: 'Yes'	
+        	title: "yes",
+        	payload: 'Yes'
       	},
       	{
         	content_type: "text",
@@ -162,7 +162,7 @@ class Messagehuman
         	]
       	}
    	}
- 	 } 
+ 	 }
   }.to_json
 
 	response = HTTParty.post(
@@ -199,7 +199,7 @@ def self.sendSummaryButton(recipient)
           ]
         }
     }
-   } 
+   }
   }.to_json
 
   response = HTTParty.post(
@@ -265,9 +265,9 @@ def self.sendGroupConfirmMessage(recipient, possibleClasses, charge)
             ]
           }
       }
-     } 
+     }
     }.to_json
-  	
+
     response = HTTParty.post(
       "https://graph.facebook.com/v2.6/me/messages?access_token=#{$page_access_token}",
       body: body,
@@ -302,9 +302,9 @@ def self.sendGroupConfirmMessage(recipient, possibleClasses, charge)
             ]
           }
       }
-     } 
+     }
     }.to_json
-    
+
     response = HTTParty.post(
       "https://graph.facebook.com/v2.6/me/messages?access_token=#{$page_access_token}",
       body: body,
@@ -364,20 +364,28 @@ def self.sendGroupConfirmMessage(recipient, possibleClasses, charge)
             ]
           }
       }
-     } 
+     }
     }.to_json
-    
+
     response = HTTParty.post(
       "https://graph.facebook.com/v2.6/me/messages?access_token=#{$page_access_token}",
       body: body,
       headers: { 'Content-Type' => 'application/json' }
     )
   end
+
+  def self.CheckOneWord(text)
+    textArray = text.split(" ")
+    case textArray
+    when textArray.include?("serious")
+      return "don't be serious; be silly"
+    when textArray.include?("why?") || textArray.include?("why")
+      return "i'm not good at giving answers"
+    else
+      return "a"
+    end
+  end
+
+
+
 end
-
-
-
-
-
-
-

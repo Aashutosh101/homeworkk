@@ -309,6 +309,15 @@ class MessengerController < ApplicationController
 					end
 				end
 			end
+
+			if !@userText.nil?
+				@reply = Messagehuman.CheckOneWord(@userText)
+				if @reply != "a"
+					Messagehuman.sendMessage(@recipient, @reply)
+					@sentMessage = true
+				end
+			end
+
 			# if there has been no message sent, then send a default response
 			if @sentMessage == false
 				#send the message bubbles
