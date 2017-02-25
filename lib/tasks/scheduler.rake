@@ -128,6 +128,7 @@ task :send_homework => :environment do
 				# create the empty string
 				homeworkGroupsString = String.new
 				counter = 1
+				if !homeworkGroups.nil?
 				homeworkGroups.each do |group|
 					if !group.nil?
 						if counter != 1
@@ -137,6 +138,7 @@ task :send_homework => :environment do
 						end
 					end
 				end
+			end
 				puts 'user send to: ' + user.first_name.to_s
 				if !homeworkGroupsString.blank?
 					# send their homework
