@@ -3,7 +3,6 @@ require 'json'
 task :message_task => :environment do
 	@groups = Group.all.order("end_time ASC").where("group_day = ?", 0.hours.ago.strftime("%A").downcase).where("extra_class = ?", false).where(paused: [false, nil])
 	@t = 0.minutes.from_now.utc.strftime("%H:%M")
-	@break = false
 	@timeten = 10.minutes.from_now.utc.strftime("%H:%M")
 	puts "@t: " + @t.inspect
 	puts "@timeten: " + @timeten.inspect
@@ -14,16 +13,13 @@ task :message_task => :environment do
 			#puts "end time 1: " + group.end_time.inspect
 			group.end_time = group.end_time + (group.time_zone * -1).hours
 			#puts "end time 2: " + group.end_time.inspect
-		elsif group.time_zone.to_i > 0
+		elsif group.time_zone.to_i >= 0
 			#puts "end_time 1: " + group.end_time.inspect
 			group.end_time = group.end_time - group.time_zone.hours
 			#puts "end_time 2: " + group.end_time
-		elsif group.time_zone.nil?
-			@break = true
 		else
 		end
 
-		break if @break.true?
 
 		if group.end_time.strftime("%H:%M") >= @t && group.end_time.strftime("%H:%M") < @timeten
 			#puts "group: " + group.group_name.to_s + " " + group.conversation_id.to_s
