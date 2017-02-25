@@ -374,7 +374,7 @@ def self.sendGroupConfirmMessage(recipient, possibleClasses, charge)
     )
   end
 
-  def self.CheckOneWord(text)
+  def self.checkOneWord(text)
     textArray = text.split(" ")
     case textArray
     when textArray.include?("serious")

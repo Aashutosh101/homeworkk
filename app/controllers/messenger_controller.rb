@@ -311,8 +311,10 @@ class MessengerController < ApplicationController
 			end
 
 			if !@userText.nil?
-				@reply = Messagehuman.CheckOneWord(@userText)
+				@reply = Messagehuman.checkOneWord(@userText)
 				if @reply != "a"
+					Messagehuman.sendMessageBubbles(@recipient)
+					sleep(1)
 					Messagehuman.sendMessage(@recipient, @reply)
 					@sentMessage = true
 				end
