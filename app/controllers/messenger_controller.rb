@@ -311,6 +311,7 @@ class MessengerController < ApplicationController
 			end
 
 			if !@userText.nil?
+				puts "HERE HERE HERE"
 				@reply = Messagehuman.checkOneWord(@userText)
 				if @reply != "a"
 					Messagehuman.sendMessageBubbles(@recipient)
