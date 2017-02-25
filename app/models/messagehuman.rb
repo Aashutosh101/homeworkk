@@ -376,10 +376,9 @@ def self.sendGroupConfirmMessage(recipient, possibleClasses, charge)
 
   def self.checkOneWord(text)
     textArray = text.split(" ")
-    case textArray
-    when textArray.include?("serious")
+    if textArray.include?("serious")
       return "don't be serious; be silly"
-    when textArray.include?("why?") || textArray.include?("why")
+    elsif textArray.include?("why?") || textArray.include?("why")
       return "i'm not good at giving answers"
     else
       return "a"
