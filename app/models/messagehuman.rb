@@ -386,6 +386,8 @@ def self.sendGroupConfirmMessage(recipient, possibleClasses, charge)
       return "way to be postive...it's impossible for me to be happy because i'm a bot...but now i feel sad thinking about it"
     elsif textArray.include?("thanks") || textArray.include?("thank")
       return "you're absolutely welcome :-)"
+    elsif textArray.include?("chris")
+      return "i got to stop you right there...the name is christopher not chris"
     else
       return "a"
     end
