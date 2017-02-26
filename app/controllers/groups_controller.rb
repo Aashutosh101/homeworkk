@@ -170,6 +170,7 @@ class GroupsController < ApplicationController
     if @groupFirstId.nil?
       redirect_to root_path, notice: 'You have deleted all your classes for that day'
     elsif $deletedFromEdit == true
+      $deletedFromEdit = false
       redirect_to action: "edit", id: @groupFirstId
     else
       redirect_to root_path, notice: 'Class was incinerated'
