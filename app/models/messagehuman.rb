@@ -1,8 +1,11 @@
+# method for texting the user
 class Messagehuman
   require 'json'
   if Rails.env.staging?
+    # set rails token if it's staging
     $page_access_token = "EAAIgtnRF648BABaZCpNurJN2GBzjZC6jQZAZCCdQE90mluLc5jooAfHrFgSxsYT2eTeu9sXVjWWiFc1gZBXn5if7OC2Q4hXsnHwxrSDg7anLuzPnRzUvicPv5R1AXxkjZAS2Xhm7KknwGlx0poBZC7IFNhRyNHnWabn59f7CkwnjAZDZD"
   else
+    # production rails token
     $page_access_token = "EAAZAjj9YZAiZC0BAOFT4SiXhnIqinWdveXxBf8AvDMAGMXamAIQobjfYRIv9Iw85UcZBXOqla4XpWtUJ6fooeBpM4LtB9hUwOYeRsokcOKUa40gM9RpKgtCTxHiFde52R4i3PZAfMijyw3NZACCYILq3hWeCipeq5gCLuyZASBn6gZDZD"
   end
   # method to send string message to user
@@ -24,12 +27,14 @@ class Messagehuman
 		)
 	end
 
+  # "algorithim" to determine similarity  of a word
   def self.string_difference_percent(a, b)
     longer = [a.size, b.size].max
     same = a.each_char.zip(b.each_char).select { |a,b| a == b }.size
     return (longer - same) / a.size.to_f
   end
 
+  # sending the text message bubbles
   def self.sendMessageBubbles(recipient)
     page_access_token = 'EAAZAjj9YZAiZC0BAOFT4SiXhnIqinWdveXxBf8AvDMAGMXamAIQobjfYRIv9Iw85UcZBXOqla4XpWtUJ6fooeBpM4LtB9hUwOYeRsokcOKUa40gM9RpKgtCTxHiFde52R4i3PZAfMijyw3NZACCYILq3hWeCipeq5gCLuyZASBn6gZDZD'
     body = {
@@ -45,6 +50,7 @@ class Messagehuman
     )
   end
 
+  # method to send the yes or no question
 	def self.sendBinaryMessage(recipient, message)
 		page_access_token = 'EAAZAjj9YZAiZC0BAOFT4SiXhnIqinWdveXxBf8AvDMAGMXamAIQobjfYRIv9Iw85UcZBXOqla4XpWtUJ6fooeBpM4LtB9hUwOYeRsokcOKUa40gM9RpKgtCTxHiFde52R4i3PZAfMijyw3NZACCYILq3hWeCipeq5gCLuyZASBn6gZDZD'
  		body = {
@@ -74,6 +80,7 @@ class Messagehuman
 		)
 	end
 
+  # checking for keywords in the user text
 	def self.checkKeyWords(recipient, userText)
     $subject = nil
     $keyWords = Array.new
@@ -392,7 +399,5 @@ def self.sendGroupConfirmMessage(recipient, possibleClasses, charge)
       return "a"
     end
   end
-
-
 
 end

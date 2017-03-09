@@ -8,12 +8,15 @@ class GroupsController < ApplicationController
   def index
     @message = Message.new
     $user = current_user
+    # time zones for time select
     @timeZones = [["Pacific Time (GMT - 8)", -8], ["Eastern Time (GMT - 5)", -5], ["Greenwich Mean Time", 0], ["Mountain (GMT - 7)", -7],["Central Time (GMT - 6)", -6],["Atlantic Time (GMT - 4)", -4], ["Newfoundland Time (GMT - 3.5)", -3.5], ["European Central Time (GMT + 1)", 1], ["India Standard Time (GMT + 5.5)", 5.5],["Australian Central Time (GMT + 9.5)", 9.5],["Australian Eastern Time (GMT + 10)", 10], ["Thailand Time Zone (GMT + 7)", 7], ["Pakistan Lahore Time(GMT + 5)", 5], ["China Taiwan Time (GMT + 8)", 8], ["Eastern European Time (GMT + 2)", 2], ["Japan Standard Time (GMT + 9)", 9], ["Argentina Standard Time (GMT - 3)", -3], ["Brazil Eastern Time (GMT - 3)", -3], ["Central African Time (GMT - 1)", -1], ["Alaska Standard Time (GMT - 9)", -9], ["Hawaii Standard Time (GMT - 10)", -10], ["Midway Islands Time (GMT - 11)", -11]]
+    # this is to set the user class number and timezone
     if user_signed_in? && current_user.class_number.nil? && !params["user"].nil?
       @setUserClassNumber = User.find_by(id: current_user.id)
       @setUserClassNumber.update(time_zone: params["user"]["time_zone"].to_i, class_number: params["user"]["class_number"].to_i)
       @setUserClassNumber.save
       if !current_user.groups.nil?
+        #updating each group to the new user time zone
         current_user.groups.each do |group|
           group.update(time_zone: current_user.time_zone)
         end
@@ -22,13 +25,15 @@ class GroupsController < ApplicationController
     end
     @groups = Group.all
     @user = current_user if user_signed_in?
+=begin
     if user_signed_in? && current_user.conversation_id.nil?
       @user = current_user
       @user.update(conversation_id: $conversation_id)
       @user.save
     end
+=end
     if user_signed_in?
-     @userGroups = current_user.groups
+    @userGroups = current_user.groups
     @classSignUpDay = "monday"
      @userGroups.each do |group|# if the group day exists, then set @classSignUpDay to the next
       case group.group_day
@@ -86,6 +91,7 @@ class GroupsController < ApplicationController
     else
       @classSignUpDay = params[:day]
     end
+    # determining yesterday's classes for the auto-fill form
     case @classSignUpDay
       when "monday"
         @yesterdayClassDay = nil
@@ -100,6 +106,7 @@ class GroupsController < ApplicationController
       else
     end
     @group = current_user.groups.build
+    # yesterday groups in end_time order
     @yesterday_groups = current_user.groups.where("group_day = ?", @yesterdayClassDay).order("end_time ASC") # groups for set from yesterday
   end
 
@@ -122,6 +129,7 @@ class GroupsController < ApplicationController
     if !params[:group].nil?
       params[:group].each do |group|
         next if group[:group_name] == "" || group[:end_time] == ""
+        # creating the user group
         @group = current_user.groups.build(group_name: group[:group_name].downcase, end_time: group[:end_time], group_day: group[:group_day], conversation_id: group[:conversation_id], time_zone: current_user.time_zone)
         @group.save
         counter += 1

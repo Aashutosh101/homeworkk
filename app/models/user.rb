@@ -2,7 +2,6 @@ class User < ActiveRecord::Base
   #validations from form
   validates :class_number, presence: true, numericality: {:greater_than => 0, :less_than => 15}, :allow_blank => true
   validates :time_zone, presence: true, :numericality => true, :allow_blank => true
-
   validates :paused_time, presence: true, :allow_blank => true
 
   devise :database_authenticatable, :registerable,
@@ -20,8 +19,10 @@ class User < ActiveRecord::Base
     false
   end
 
+  # FACEBOOK LOGIN METHODS
   def self.from_omniauth(auth, conversation_id)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      # setting the user info
       user.first_name = auth.info.first_name
       user.provider = auth.provider
       user.uid = auth.uid
